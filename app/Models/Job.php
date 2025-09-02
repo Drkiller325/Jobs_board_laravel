@@ -12,7 +12,10 @@ class Job extends Model
 
     protected $table = "job_listings";
 
-    protected $fillable = ['title', 'salary'];
+    // protected $fillable = ['title', 'salary', 'employer_id'];
+
+    // this means that there's not any blocked inputs (all fillable)
+    protected $guarded = [];
 
     public function employer()
     {
