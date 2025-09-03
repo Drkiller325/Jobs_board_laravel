@@ -8,6 +8,8 @@ Route::get('/', function () {
 });
 
 Route::get('/jobs', function () {
+    // use latest() to display the jobs by time stamp from latest
+    //
     $jobs = Job::with('employer')->latest()->simplePaginate(3);
 
     return view('jobs.index',[
@@ -26,7 +28,10 @@ Route::get('/jobs/{id}', function ($id){
 });
 
 Route::post('/jobs', function () {
-   // Validation
+   request()->validate([
+       'title' => ['required', 'min:3'],
+       'salary' => ['required']
+   ]);
 
 
     Job::create([
