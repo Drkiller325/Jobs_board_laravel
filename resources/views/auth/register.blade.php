@@ -20,12 +20,12 @@
                     </x-form-field>
 
                     <x-form-field >
-                        <x-form-label for="Last_name">Last name</x-form-label>
+                        <x-form-label for="last_name">Last name</x-form-label>
 
                         <div class="mt-2">
-                            <x-form-input id="Last_name" type="text" name="Last_name" required />
+                            <x-form-input id="last_name" type="text" name="last_name" required />
 
-                            <x-form-error name="Last_name" />
+                            <x-form-error name="last_name" />
                         </div>
                     </x-form-field>
 
@@ -53,7 +53,7 @@
                         <x-form-label for="password_confirmation">Confirm Password</x-form-label>
 
                         <div class="mt-2">
-                            <x-form-input id="password_confirmation" type="password_confirmation" name="password_confirmation" required />
+                            <x-form-input id="password_confirmation" type="password" name="password_confirmation" required />
 
                             <x-form-error name="password_confirmation" />
                         </div>
