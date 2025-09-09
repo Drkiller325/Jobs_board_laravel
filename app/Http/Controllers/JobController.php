@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 // the functions called actions on a controller
 class JobController extends Controller
@@ -47,12 +50,35 @@ class JobController extends Controller
 
     public function edit(Job $job)
     {
+        // the Gate handles that automatically | this is irrelevant
+//        if (Auth::guest())
+//        {
+//            // has to be return to redirect
+//            return redirect('/login');
+//        }
+
+        //"Gate" definition in AppService does the same thing but can be accessed from anywhere
+//        if ($job->employer->user->isNot(Auth::user()))
+//        {
+//            abort(403);
+//        }
+
+        // handled in Routes using middleware
+        //Gate::authorize('edit-job', $job);
+
+        // another way to Handle authorization | we can use can and cannot
+//        if (Auth::user()->can('edit-job', $job)) {
+//            dd('failure'); // or redirect or abort or smth
+//        }
+
         return view('jobs.edit',['job' => $job]);
     }
 
     public function update(Job $job)
     {
-        // authorize (on hold...)
+        // authorize handled in Routes using middleware
+        //Gate::authorize('edit-job', $job);
+
 
         // validate
         request()->validate([
@@ -77,10 +103,13 @@ class JobController extends Controller
 
     public function destroy(Job $job)
     {
-        //authorize (on hold)
+        //authorize
+        Gate::authorize('edit-job', $job);
+
         // delete the job
         $job->delete();
 
+        //redirect
         return redirect('/jobs');
     }
 }

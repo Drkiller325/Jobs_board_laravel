@@ -9,8 +9,11 @@
         This job pays {{$job->salary}} per year
     </p>
 
-    <?php //'mt' = margin top ?>
-    <p class="mt-6">
-        <x-button href="/jobs/{{ $job->id }}/edit">Edit Job</x-button>
-    </p>
+    <?php // this is a if the user can edit run the logic (check JobController) ?>
+    @can('edit', $job)
+        <?php //'mt' = margin top ?>
+        <p class="mt-6">
+            <x-button href="/jobs/{{ $job->id }}/edit">Edit Job</x-button>
+        </p>
+    @endcan
 </x-layout>

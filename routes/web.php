@@ -21,23 +21,34 @@ Route::view('/', 'home');
 // this is the same
 Route::view('/contact', 'contact');
 
-//Route::controller(JobController::class)->group(function () {
-//    Route::get('/jobs',  'index');
-//    Route::get('/jobs/create', 'create');
-//    Route::get('/jobs/{job}', 'show');
-//    Route::post('/jobs', 'store');
-//    Route::get('/jobs/{job}/edit', 'edit');
-//    Route::put('/jobs/{job}', 'update');
-//    Route::delete('/jobs/{job}', 'destroy');
-//});
+//Jobs
+Route::controller(JobController::class)->group(function () {
+    Route::get('/jobs',  'index');
+    Route::get('/jobs/create', 'create');
+    Route::get('/jobs/{job}', 'show');
+    Route::post('/jobs', 'store')->middleware('auth');
 
-Route::resource('/jobs' , JobController::class);
+//    Route::get('/jobs/{job}/edit', 'edit')->middleware(['auth', 'can:edit-job, job']);
+    //OR this
+    Route::get('/jobs/{job}/edit', 'edit')
+        ->middleware('auth')
+        ->can('edit', 'job'); // instead of the gate defined "edit-job" we now reference the policy "edit"
+
+    Route::put('/jobs/{job}', 'update')->middleware('auth');
+    Route::delete('/jobs/{job}', 'destroy')->middleware('auth');
+});
+
+//Route::resource('/jobs' , JobController::class)->middleware('auth');
+
+// if we need to allow guests to access say jobs and single jobs
+//Route::resource('/jobs', JobController::class)->only(['index', 'show']);
+//Route::resource('/jobs', JobController::class)->except(['index', 'show'])->middleware('auth');
 
 //Auth
 Route::get('/register', [RegisterController::class, 'create']);
 Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('/login', [SessionController::class, 'create']);
+Route::get('/login', [SessionController::class, 'create'])->name('login');;
 Route::post('/login', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
 
