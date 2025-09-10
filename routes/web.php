@@ -3,7 +3,22 @@
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\RegisterController;
+use App\Jobs\TranslateJob;
+use App\Models\Job;
 use Illuminate\Support\Facades\Route;
+
+Route::get('test', function () {
+
+    $job = Job::first();
+    TranslateJob::dispatch($job);
+
+    //for simple functionality we can use delay as well to send the message after a time interval
+//    dispatch(function () {
+//        logger('hello from the queue');
+//    })->delay(now()->addSeconds(5));
+
+    return 'Done';
+});
 
 //Rout::get('/post/{post:slug}', function ($slug) {}); this is when an instance of the post doesn't have an id
 // but a unique column in the database table which is the "slug"

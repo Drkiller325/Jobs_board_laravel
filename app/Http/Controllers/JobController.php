@@ -48,7 +48,7 @@ class JobController extends Controller
         ]);
 
         // laravel grabs the email from the user object automatically
-        Mail::to($job->employer->user)->send(
+        Mail::to($job->employer->user)->queue(
             new JopPosted($job)
         );
 
