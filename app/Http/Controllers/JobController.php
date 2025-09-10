@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\JopPosted;
 use App\Models\Job;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 
 // the functions called actions on a controller
 class JobController extends Controller
@@ -39,11 +41,16 @@ class JobController extends Controller
             'salary' => ['required']
         ]);
 
-        Job::create([
+        $job = Job::create([
             'title' => request('title'),
             'salary' => request('salary'),
             'employer_id' => 1
         ]);
+
+        // laravel grabs the email from the user object automatically
+        Mail::to($job->employer->user)->send(
+            new JopPosted($job)
+        );
 
         return redirect('/jobs');
     }

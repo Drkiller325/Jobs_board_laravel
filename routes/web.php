@@ -5,7 +5,6 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
-
 //Rout::get('/post/{post:slug}', function ($slug) {}); this is when an instance of the post doesn't have an id
 // but a unique column in the database table which is the "slug"
 
@@ -48,9 +47,10 @@ Route::controller(JobController::class)->group(function () {
 Route::get('/register', [RegisterController::class, 'create']);
 Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('/login', [SessionController::class, 'create'])->name('login');;
+Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/login', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
+
 
 
 
